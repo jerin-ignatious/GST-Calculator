@@ -4,14 +4,14 @@ This class defines the GST rate for slab1 commodities and calulates
 the final price of the commodity.
 */
 class GST1{
-    int unit;
-    double initialUnitPrice;
-    double slab1GST=0.00; //GST rate for slab1
+    static int unit;
+    static double initialUnitPrice;
+    static double slab1GST=0.00; //GST rate for slab1
     GST1(String[] input1){
         unit=Integer.parseInt(input1[0]);
         initialUnitPrice=Double.parseDouble(input1[2]);
     }
-    public double calculateSlab1GST(){
+    public static double calculateSlab1GST(){
         return unit*(initialUnitPrice+(initialUnitPrice*slab1GST));
     }
 }
@@ -20,14 +20,14 @@ This class defines the GST rate for slab2 commodities and calulates
 the final price of the commodity.
 */
 class GST2{
-    int unit;
-    double initialUnitPrice;
-    double slab2GST=0.05; //GST rate for slab2
+    static int unit;
+    static double initialUnitPrice;
+    static double slab2GST=0.05; //GST rate for slab2
     GST2(String[] input1){
         unit=Integer.parseInt(input1[0]);
         initialUnitPrice=Double.parseDouble(input1[2]);
     }
-    public double calculateSlab2GST(){
+    public static double calculateSlab2GST(){
         return unit*(initialUnitPrice+(initialUnitPrice*slab2GST));
     }
 }
@@ -36,14 +36,14 @@ This class defines the GST rate for slab3 commodities and calulates
 the final price of the commodity.
 */
 class GST3{
-    int unit;
-    double initialUnitPrice;
-    double slab3GST=0.18; //GST rate for slab3
+    static int unit;
+    static double initialUnitPrice;
+    static double slab3GST=0.18; //GST rate for slab3
     GST3(String[] input1){
         unit=Integer.parseInt(input1[0]);
         initialUnitPrice=Double.parseDouble(input1[2]);
     }
-    public double calculateSlab3GST(){
+    public static double calculateSlab3GST(){
         return unit*(initialUnitPrice+(initialUnitPrice*slab3GST));
     }
 }
@@ -52,14 +52,14 @@ This class defines the GST rate for slab4 commodities and calulates
 the final price of the commodity.
 */
 class GST4{
-    int unit;
-    double initialUnitPrice;
-    double slab4GST=0.28; //GST rate for slab4
+    static int unit;
+    static double initialUnitPrice;
+    static double slab4GST=0.28; //GST rate for slab4
     GST4(String[] input1){
         unit=Integer.parseInt(input1[0]);
         initialUnitPrice=Double.parseDouble(input1[2]);
     }
-    public double calculateSlab4GST(){
+    public static double calculateSlab4GST(){
         return unit*(initialUnitPrice+(initialUnitPrice*slab4GST));
     }
 }
@@ -67,41 +67,63 @@ class GST4{
 Main class 
 */
 public class commodityPrice{
-    public static void main(String []args){
-        double finalPrice=0.0;
-        Scanner sc=new Scanner(System.in);
-        /*
-        All the commodities have been categorised into 4 slabs 
-        according to the GST class they fall into
-        */
-        String[] slab1CommodityList={"Rice","Wheat","Dal"};        // 0% GST
-        String[] slab2CommodityList={"Table","Sofa","Chair"};      // 5% GST
-        String[] slab3CommodityList={"Mobile","TV","Tablet"};      //18% GST
-        String[] slab4CommodityList={"Cream","Perfume","Lotion"};  //28% GST
-        String input=sc.nextLine();
-        String[] splitInput=input.split(" ");
-        /*
-        Deciding category of current commodity
-        */
+     /*
+    All the commodities have been categorised into 4 slabs 
+    according to the GST class they fall into
+    */
+    static String[] slab1CommodityList={"Rice","Wheat","Dal"};        // 0% GST
+    static String[] slab2CommodityList={"Table","Sofa","Chair"};      // 5% GST
+    static String[] slab3CommodityList={"Mobile","TV","Tablet"};      //18% GST
+    static String[] slab4CommodityList={"Cream","Perfume","Lotion"};  //28% GST
+    /*
+    Function to decide slab
+    */
+    public static double decideSlab(String[] splitInput){
+        double price=0.0;
         if(Arrays.asList(slab1CommodityList).contains(splitInput[1])){
             GST1 product=new GST1(splitInput);
-            finalPrice=product.calculateSlab1GST();
+            price=product.calculateSlab1GST();
         }
         else if(Arrays.asList(slab2CommodityList).contains(splitInput[1])){
             GST2 product=new GST2(splitInput);
-            finalPrice=product.calculateSlab2GST();
+            price=product.calculateSlab2GST();
         }
         else if(Arrays.asList(slab3CommodityList).contains(splitInput[1])){
             GST3 product=new GST3(splitInput);
-            finalPrice=product.calculateSlab3GST();
+            price=product.calculateSlab3GST();
         }
         else if(Arrays.asList(slab4CommodityList).contains(splitInput[1])){
             GST4 product=new GST4(splitInput);
-            finalPrice=product.calculateSlab4GST();
+            price=product.calculateSlab4GST();
+        }
+        else{
+            return -1.0;
+        }
+        return price;
+    }
+    public static void main(String []args){
+        double finalPrice=0.0;
+        Scanner sc=new Scanner(System.in);
+        String input=sc.nextLine();
+        String[] splitInput=input.split(" ");
+        finalPrice=decideSlab(splitInput);
+        /*
+        Case where current product is not available in any slab
+        */
+        if(finalPrice==-1){
+            System.out.println("Enter valid commodity");
         }
         /*
-        Displaying final price
+        Case where entered price is negative
         */
-        System.out.println(finalPrice);
+        else if(finalPrice<0){
+            System.out.println("Entered price is negative");
+        }
+        /*
+        Valid input
+        */
+        else{
+            System.out.println(finalPrice); //Displaying final price of commodity
+        }
     }
 }
