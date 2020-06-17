@@ -1,4 +1,5 @@
-import java.util.*;
+import java.util.Scanner;
+import java.util.Arrays;
 /*
 This class defines the GST rate for slab1 commodities and calulates
 the final price of the commodity.
