@@ -11,3 +11,8 @@ Each class has a method named ```calculateSlabGST()``` that calculates and retur
 
 # Dependencies
 The libraries used in this program are ```java.util.Scanner``` and ```java.util.Arrays```.
+
+# Running the code
+>```javac commodityPrice.java```
+
+>```java commodityPrice```
