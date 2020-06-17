@@ -101,6 +101,9 @@ public class commodityPrice{
         }
         return price;
     }
+    /*
+    Main function
+    */
     public static void main(String []args){
         double finalPrice=0.0;
         Scanner sc=new Scanner(System.in);
